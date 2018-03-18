@@ -1,7 +1,7 @@
 -- This Pig script uses the Book-Crossing dataset (http://www2.informatik.uni-freiburg.de/~cziegler/BX/)
 -- to find the highest rated book. The book with the highest average rating is considered to be the
 -- highest rated book. A book must have at least 50 explicit ratings to be considered. This threshold
--- was determined when I was creating the most_popular_book.pig script. There are many book with few
+-- was determined when I was creating the most_popular_book.pig script. There are many books with few
 -- ratings whose average rating is (possibly) skewed due to a small sample size.
 
 -- Import the PiggyBank library for CSVExcelStorage()

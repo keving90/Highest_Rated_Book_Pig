@@ -54,6 +54,8 @@ results = FOREACH inner_join GENERATE book_info::BookTitle AS BookTitle, book_in
 sorted_results = ORDER results BY AvgRating DESC;
 
 -- Execute all of the above actions and store the results
+-- When PigStorage takes -schema, it will create a .pig_schema 
+-- and a .pig_header file in the output directory.
 STORE sorted_results INTO 'highest_rated_book' using PigStorage('\t','-schema');
 
 

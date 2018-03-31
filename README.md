@@ -14,7 +14,7 @@ I placed a folder of the two datasets called `book_ratings` onto the hadoop clus
 
 The Pig script was run using: `bin/pig scripts/highest_rated_book.pig`.
 
-When PigStorage takes `-schema` (line 57 of `highest_rated_book.pig`), it will create a `.pig_schema` and a `.pig_header` file in the output directory. To output the results as a `tsv` file, we need to merge '.pig_header' with 'part-x-xxxxx’. Since `-getmerge` takes an input directory, we need to get rid of `.pig_schema` first. We use the following two commands:
+When PigStorage takes `-schema` (line 59 of `highest_rated_book.pig`), it will create a `.pig_schema` and a `.pig_header` file in the output directory. To output the results as a `tsv` file, we need to merge '.pig_header' with 'part-x-xxxxx’. Since `-getmerge` takes an input directory, we need to get rid of `.pig_schema` first. We use the following two commands:
 
 `hadoop fs -rm -r highest_rated_book/.pig_schema`
 

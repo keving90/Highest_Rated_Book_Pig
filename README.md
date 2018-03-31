@@ -8,7 +8,7 @@ Comments, critiques, suggestions, etc. are welcome.
 
 ### Hadoop Shell Commands
 
-Open Terminal and change the current directory to Pig's home directory: `/home/kevin/pig-0.17.0`.
+Open Terminal and change the current directory to Pig's home directory: `cd /home/kevin/pig-0.17.0`.
 
 I placed a folder of the two datasets called `book_ratings` onto the hadoop cluster using: `hadoop fs -put book_ratings`.
 

@@ -1,9 +1,3 @@
--- This Pig script uses the Book-Crossing dataset (http://www2.informatik.uni-freiburg.de/~cziegler/BX/)
--- to find the highest rated book. The book with the highest average rating is considered to be the
--- highest rated book. A book must have at least 50 explicit ratings to be considered. This threshold
--- was determined when I was creating the most_popular_book.pig script. There are many books with few
--- ratings whose average rating is (possibly) skewed due to a small sample size.
-
 -- Import the PiggyBank library for CSVExcelStorage()
 -- CSVExcelStorage() is useful because it emliminates the header row
 REGISTER 'lib/piggybank.jar';
@@ -44,7 +38,7 @@ grouped_ratings = GROUP explicit_ratings BY ISBN;
 -- Get the number of explicit ratings for each book
 rating_count_avg = FOREACH grouped_ratings GENERATE group AS ISBN, COUNT(explicit_ratings.UserID) AS NumRatings, AVG(explicit_ratings.Rating) AS AvgRating;
 
--- Exclude all books with less than 5 explicit ratings
+-- Exclude all books with less than 50 explicit ratings
 common_books = FILTER rating_count_avg BY (NumRatings >= 50);
 
 -- Only interested in ISBN, title, and author in books bag
@@ -54,13 +48,13 @@ book_info = FOREACH books GENERATE ISBN, BookTitle, BookAuthor;
 inner_join = JOIN common_books BY ISBN, book_info BY ISBN;
 
 -- The inner_join bag has two ISBN fields, which is redundant
-results = FOREACH inner_join GENERATE book_info::BookTitle AS BookTitle, book_info::BookAuthor AS BookAuthor, common_books::AvgRating AS AvgRating, common_books::NumRatings AS NumRatings;
+results = FOREACH inner_join GENERATE book_info::BookTitle AS BookTitle, book_info::BookAuthor AS BookAuthor, ROUND_TO(common_books::AvgRating, 2) AS AvgRating, common_books::NumRatings AS NumRatings;
 
 -- Sort the data
 sorted_results = ORDER results BY AvgRating DESC;
 
 -- Execute all of the above actions and store the results
-STORE sorted_results INTO 'highest_rated_book';
+STORE sorted_results INTO 'highest_rated_book' using PigStorage('\t','-schema');
 
 
 
